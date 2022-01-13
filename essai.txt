@@ -1,3 +1,8 @@
 salut fantin
 j'ai pu regenerer mon jeton 
+<<<<<<< HEAD
 ça marche gros
+=======
+
+c'est ca
+>>>>>>> 4caa021ebd025d8e24a2adb008eda06683c5348a

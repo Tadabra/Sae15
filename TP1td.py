@@ -38,16 +38,16 @@ def select(textics: str, chaineSelect) :
             return text
 
 
-def find(date: str):
-    tabDate = date.split("T")
-    heureD = tabDate[1][:-3]
-    annee = tabDate[0][:-4]
-    mois = tabDate[0][4:-2]
-    jour = tabDate[0][6:]
-    date = "-".join([jour, mois, annee])
-    return [date, heureD]
+def separerDateHeure(date: str):
+    tabDateHeure = date.split("T")#séparation date et heure
+    heure = tabDateHeure[1][:-3]#on tranche les données récupération heure
+    annee = tabDateHeure[0][:-4]#récupération année
+    mois = tabDateHeure[0][4:-2]#récupération mois
+    jour = tabDateHeure[0][6:]#récupération jour
+    date = "-".join([jour, mois, annee])#formatage date
+    return [date, heure]
     
-def heure(heure: str):
+def formatageHeure(heure: str):
     table = [heure[:-2],heure[-2:]]
     return ":".join(table)
 
@@ -61,9 +61,21 @@ tab = []
 for propriete in tabpropriete :
     tab.append(select(textics, propriete))
 
-dateDebut = find(tab[1])
-dateFin = find(tab[2])
-duree = str(int(dateFin[1])-int(dateDebut[1]))
+description=tab[3]
+descriptionTab=re.split("-| |,",description)    
+#récupération des propriétés à afficher dans pseudo csv
+uid=tab[0]
+dateDebut = separerDateHeure(tab[1])[0]
+heureDébut = separerDateHeure(tab[1])[1]
+heureFin = separerDateHeure(tab[2])[1]
+duree = str(int(heureFin)-int(heureDébut))
+typeActivité = descriptionTab[1]
+summary=tab[4]
+salle=tab[5]
+prof=descriptionTab[3]+" "+descriptionTab[4]
+groupe=descriptionTab[2]
+
+pseudoCSV=";".join([uid,dateDebut,formatageHeure(heureDébut),formatageHeure(duree),typeActivité,summary,salle,prof,groupe])
 
 
 

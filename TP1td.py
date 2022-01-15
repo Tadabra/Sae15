@@ -54,28 +54,37 @@ def formatageHeure(heure: str):
 
 
 
-#if __name __ == "__main__" :
-textics = lecture_fichier("evenementSAE_15.ics")
-tabpropriete = ["UID:","DTSTART:","DTEND:","DESCRIPTION:","SUMMARY:","LOCATION:"] 
-tab = []    
-for propriete in tabpropriete :
-    tab.append(select(textics, propriete))
 
-description=tab[3]
-descriptionTab=re.split("-| |,",description)    
-#récupération des propriétés à afficher dans pseudo csv
-uid=tab[0]
-dateDebut = separerDateHeure(tab[1])[0]
-heureDébut = separerDateHeure(tab[1])[1]
-heureFin = separerDateHeure(tab[2])[1]
-duree = str(int(heureFin)-int(heureDébut))
-typeActivité = descriptionTab[1]
-summary=tab[4]
-salle=tab[5]
-prof=descriptionTab[3]+" "+descriptionTab[4]
-groupe=descriptionTab[2]
-
-pseudoCSV=";".join([uid,dateDebut,formatageHeure(heureDébut),formatageHeure(duree),typeActivité,summary,salle,prof,groupe])
+#textics = lecture_fichier("evenementSAE_15.ics")
+def tpcsv(chaine_evenement: str):
+    tabpropriete = ["UID:","DTSTART:","DTEND:","DESCRIPTION:","SUMMARY:","LOCATION:"] 
+    tab = []    
+    for propriete in tabpropriete :
+        tab.append(select(chaine_evenement, propriete))
+    
+    description=tab[3]
+    descriptionTab=re.split("-|,",description)  
+    tabActiviteGroupe=descriptionTab[1].split(" ")
+    #récupération des propriétés à afficher dans pseudo csv
+    uid=tab[0]
+    dateDebut = separerDateHeure(tab[1])[0]
+    heureDébut = separerDateHeure(tab[1])[1]
+    heureFin = separerDateHeure(tab[2])[1]
+    duree = str(int(heureFin)-int(heureDébut))
+    typeActivité = tabActiviteGroupe[0]
+    summary=tab[4]
+    salle=tab[5]
+    if len(descriptionTab) > 2:
+         prof=descriptionTab[1]
+    else:
+         prof=""
+    #groupe=tabActiviteGroupe[1]
+    if len(tabActiviteGroupe[1]) > 1:
+        groupe = tabActiviteGroupe[1]
+    else:
+        groupe = ""
+    pseudoCSV=";".join([uid,dateDebut,formatageHeure(heureDébut),formatageHeure(duree),typeActivité,summary,salle,prof,groupe])
+    return pseudoCSV
 
 
 

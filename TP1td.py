@@ -62,9 +62,12 @@ def tpcsv(chaine_evenement: str):
     for propriete in tabpropriete :
         tab.append(select(chaine_evenement, propriete))
     
-    description=tab[3]
-    descriptionTab=re.split("-|,",description)  
-    tabActiviteGroupe=descriptionTab[1].split(" ")
+    description=tab[3]#on a "RT-TP B1, BOULEUX GUILLAUME"
+    descriptionTab=re.split("-|,",description)# ici on coupe à - et , pour avoir "RT" "TP B1", "BOULEUX GUILLAUME"
+    if len(descriptionTab) == 3:
+        tabActiviteGroupe = ""
+    else:
+        tabActiviteGroupe=descriptionTab[1].split(" ")#ça correspond à  "TP" "B1"
     #récupération des propriétés à afficher dans pseudo csv
     uid=tab[0]
     dateDebut = separerDateHeure(tab[1])[0]
@@ -75,14 +78,14 @@ def tpcsv(chaine_evenement: str):
     summary=tab[4]
     salle=tab[5]
     if len(descriptionTab) > 2:
-         prof=descriptionTab[1]
+         prof=descriptionTab[2]
     else:
          prof=""
-    #groupe=tabActiviteGroupe[1]
-    if len(tabActiviteGroupe[1]) > 1:
-        groupe = tabActiviteGroupe[1]
-    else:
-        groupe = ""
+    groupe = "A1"
+    # if len(tabActiviteGroupe) == "":
+    #     groupe = ""
+    # else:
+    #     groupe = tabActiviteGroupe[1]
     pseudoCSV=";".join([uid,dateDebut,formatageHeure(heureDébut),formatageHeure(duree),typeActivité,summary,salle,prof,groupe])
     return pseudoCSV
 

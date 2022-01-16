@@ -64,10 +64,7 @@ def tpcsv(chaine_evenement: str):
     
     description=tab[3]#on a "RT-TP B1, BOULEUX GUILLAUME"
     descriptionTab=re.split("-|,",description)# ici on coupe à - et , pour avoir "RT" "TP B1", "BOULEUX GUILLAUME"
-    if len(descriptionTab) == 3:
-        tabActiviteGroupe = ""
-    else:
-        tabActiviteGroupe=descriptionTab[1].split(" ")#ça correspond à  "TP" "B1"
+    tabActiviteGroupe=descriptionTab[1].split(" ")#ça correspond à  "TP" "B1"
     #récupération des propriétés à afficher dans pseudo csv
     uid=tab[0]
     dateDebut = separerDateHeure(tab[1])[0]

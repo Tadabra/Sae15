@@ -59,7 +59,10 @@ def tpcsv(chaine_evenement: str):
     #les données facile à récupérer
     uid=tab[0]#uid
     summary=tab[4]#nom evenement
-    salle=tab[5]#lien
+    if tab[5]=='':
+        salle = 'vide'
+    else:
+        salle=tab[5]#lien
     #les données facile trouver mais à formater
     dateDebut = separerDateHeure(tab[1])[0]#récupération de la date et formatage
     heureDébut = separerDateHeure(tab[1])[1]#récupération de l'heure et formatage
@@ -69,41 +72,32 @@ def tpcsv(chaine_evenement: str):
     #données à extraire de la description tab[3]
     description=tab[3]#on a "RT-TP B1, BOULEUX GUILLAUME"
     tabDescription = description.split(',')
-    print
     tabGroupe = []
     tabProf = []
     for cas in tabDescription:
-        print(cas)
-        if cas.startswith('RT1-'):
-            if cas[:6]=='RT1-TP':
+        # print(cas)
+        if cas.startswith('RT1-') or cas.startswith('RT2-'):
+            if cas[:6]=='RT1-TP' or cas[:6]=='RT2-TP':
                 typeActivité = 'TP'
-                tabGroupe.append(cas[6:])
-            elif cas[:6]=='RT1-TD':
+                tabGroupe.append(cas[7:])
+            elif cas[:6]=='RT1-TD' or cas[:6]=='RT2-TD':
                 typeActivité = 'TD'
-                tabGroupe.append(cas[6:])
-            elif cas[:6]=='RT1-CM':
+                tabGroupe.append(cas[7:])
+            elif cas[:6]=='RT1-CM' or cas[:6]=='RT2-CM':
                 typeActivité = 'CM'
-                tabGroupe.append(cas[6:])
+                tabGroupe.append(cas[7:])
             else:
                 typeActivité = 'vide'
-                tabProf.append(cas)
-    # descriptionTab=re.split("-|,",description)# ici on coupe à - et , pour avoir "RT" "TP B1", "BOULEUX GUILLAUME"
-    # if len(descriptionTab) == 3:
-    #     tabActiviteGroupe = ""
-    # else:
-    #     tabActiviteGroupe=descriptionTab[1].split(" ")#ça correspond à  "TP" "B1"
-    #récupération des propriétés à afficher dans pseudo csv
-
-    # if len(descriptionTab) > 2:
-    #      prof=descriptionTab[2]
-    # else:
-    #      prof=""
-    prof= str(tabProf)
-    groupe = str(tabGroupe)
-    # if len(tabActiviteGroupe) == "":
-    #     groupe = ""
-    # else:
-    #     groupe = tabActiviteGroupe[1]
+        else:tabProf.append(cas)
+    if len(tabProf)==0:
+        prof ="vide"
+    else :
+        prof="|".join(tabProf)
+    if len(tabGroupe)==0:
+        groupe="vide"
+    else: 
+        groupe = "|".join(tabGroupe)
+    # print(prof,groupe)
     pseudoCSV=";".join([uid,dateDebut,formatageHeure(heureDébut),formatageHeure(duree),typeActivité,summary,salle,prof,groupe])
     return pseudoCSV
 

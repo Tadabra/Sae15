@@ -5,6 +5,7 @@ Created on Sun Jan 16 16:52:26 2022
 @author: Fantin le seul
 """
 import os
+import csv
 
 def lecture_fichier(chemin: str):
     """
@@ -71,7 +72,13 @@ def traitement(tableau):
             tablPseudoCSV.append(pseudoCSVIfNoFlags)
     return tablPseudoCSV
 
+table = traitement(tableau)
 
+
+with open('tableur1.csv','w',newline='') as f:  #Ouverture du fichier CSV en écriture
+    ecrire=csv.writer(f)                        # préparation à l'écriture
+    for i in table:                           # Pour chaque ligne du tableau...  
+        ecrire.writerow(i)                # Mettre dans la variable ecrire cette nouvelle ligne
 
 
 

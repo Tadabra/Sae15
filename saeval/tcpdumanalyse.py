@@ -35,7 +35,7 @@ def lecture_fichier(chemin: str):
 #     return tableauText
 
 tableau = lecture_fichier("Fichier_a_traiter.txt")
-#tableauSansHexa = supHexa(tableau)
+# tableau = lecture_fichier("simp.txt")
 
 def traitement(tableau):
     tablPseudoCSV = []
@@ -75,11 +75,8 @@ def traitement(tableau):
 table = traitement(tableau)
 
 
-with open('tableur1.csv','w',newline='') as f:  #Ouverture du fichier CSV en écriture
-    ecrire=csv.writer(f)                        # préparation à l'écriture
+with open('tableur1.csv','w+') as f:  #Ouverture du fichier CSV en écriture                      
     for i in table:                           # Pour chaque ligne du tableau...  
-        ecrire.writerow(i)                # Mettre dans la variable ecrire cette nouvelle ligne
-
-
-
+        f.write(i)                # Mettre dans la variable ecrire cette nouvelle ligne
+        f.write("\n")
 

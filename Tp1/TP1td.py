@@ -42,7 +42,7 @@ def separerDateHeure(date: str):
     annee = tabDateHeure[0][:-4]#récupération année
     mois = tabDateHeure[0][4:-2]#récupération mois
     jour = tabDateHeure[0][6:]#récupération jour
-    date = "-".join([jour, mois, annee])#formatage date
+    date = "/".join([jour, mois, annee])#formatage date
     return [date, heure]
     
 def formatageHeure(heure: str):
